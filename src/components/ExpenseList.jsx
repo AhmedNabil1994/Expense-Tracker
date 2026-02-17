@@ -4,7 +4,7 @@ import { useExpenses } from '../context/ExpenseContext';
 const ExpenseList = () => {
     const { expenses, deleteExpense } = useExpenses();
     const [filterUnit, setFilterUnit] = useState('all');
-    const [filterMonth, setFilterMonth] = useState('');
+    const [filterMonth, setFilterMonth] = useState(new Date().toISOString().slice(0, 7));
 
     // Extract unique units for filter
     const uniqueUnits = useMemo(() => {
@@ -26,14 +26,13 @@ const ExpenseList = () => {
 
     return (
         <div className="card">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+            <div className="list-header">
                 <h2>Expenses List</h2>
 
-                <div style={{ display: 'flex', gap: '10px' }}>
+                <div className="filters">
                     <select
                         value={filterUnit}
                         onChange={(e) => setFilterUnit(e.target.value)}
-                        style={{ marginBottom: 0, width: 'auto' }}
                     >
                         <option value="all">All Units</option>
                         {uniqueUnits.filter(u => u !== 'all').map(unit => (
@@ -45,12 +44,11 @@ const ExpenseList = () => {
                         type="month"
                         value={filterMonth}
                         onChange={(e) => setFilterMonth(e.target.value)}
-                        style={{ marginBottom: 0, width: 'auto' }}
                     />
                 </div>
             </div>
 
-            <div style={{ overflowX: 'auto' }}>
+            <div className="desktop-only" style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '600px' }}>
                     <thead>
                         <tr style={{ borderBottom: '2px solid var(--border-color)', textAlign: 'left' }}>
@@ -122,6 +120,56 @@ const ExpenseList = () => {
                         </tr>
                     </tfoot>
                 </table>
+            </div>
+
+            <div className="mobile-only mobile-expense-list">
+                {filteredExpenses.length === 0 ? (
+                    <div style={{ padding: '20px', textAlign: 'center', color: 'var(--secondary-color)' }}>
+                        No expenses found.
+                    </div>
+                ) : (
+                    filteredExpenses.map(expense => (
+                        <div key={expense.id} className="expense-card">
+                            <div className="expense-card-header">
+                                <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{expense.category}</span>
+                                <span style={{ fontWeight: 'bold', color: 'var(--primary-color)' }}>
+                                    EGP {expense.amount.toFixed(2)}
+                                </span>
+                            </div>
+                            <div style={{ fontSize: '0.9rem', color: 'var(--secondary-color)' }}>
+                                {expense.date} • {expense.unitName || 'General'}
+                            </div>
+                            {expense.description && (
+                                <div style={{ fontSize: '0.9rem' }}>{expense.description}</div>
+                            )}
+                            <div className="expense-card-footer">
+                                <span style={{
+                                    fontSize: '0.8rem',
+                                    padding: '2px 8px',
+                                    borderRadius: '12px',
+                                    backgroundColor: expense.paymentStatus === 'paid' ? '#dcfce7' : '#fee2e2',
+                                    color: expense.paymentStatus === 'paid' ? 'var(--success-color)' : 'var(--danger-color)'
+                                }}>
+                                    {expense.paymentStatus}
+                                </span>
+                                <button
+                                    onClick={() => deleteExpense(expense.id)}
+                                    style={{
+                                        backgroundColor: 'transparent',
+                                        color: 'var(--danger-color)',
+                                        padding: '4px 8px',
+                                        fontSize: '0.9rem'
+                                    }}
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                )}
+                <div style={{ marginTop: '1rem', padding: '1rem', backgroundColor: 'var(--background-color)', borderRadius: '8px', textAlign: 'center', fontWeight: 'bold' }}>
+                    Total: <span style={{ fontSize: '0.8em', marginRight: '2px' }}>EGP</span> {totalFilteredAmount.toFixed(2)}
+                </div>
             </div>
         </div>
     );

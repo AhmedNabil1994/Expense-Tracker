@@ -18,7 +18,7 @@ const Summary = () => {
     }, [expenses]);
 
     return (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+        <div className="summary-grid">
             <div className="card" style={{ textAlign: 'center', borderLeft: '4px solid var(--primary-color)' }}>
                 <h3 style={{ color: 'var(--secondary-color)', fontSize: '0.9rem' }}>Total Expenses</h3>
                 <p style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--text-color)' }}>

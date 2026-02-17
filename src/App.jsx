@@ -16,7 +16,7 @@ function App() {
 
         <Summary />
 
-        <div style={{ display: 'grid', gap: '2rem' }}>
+        <div className="dashboard-grid">
           <AddExpenseForm />
           <ExpenseList />
         </div>

@@ -50,7 +50,7 @@ const AddExpenseForm = () => {
         <div className="card">
             <h2>Add New Expense</h2>
             <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '10px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div className="form-row">
                     <div>
                         <label>Date</label>
                         <input
@@ -84,7 +84,7 @@ const AddExpenseForm = () => {
                     </div>
                 )}
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div className="form-row">
                     <div>
                         <label>Category</label>
                         <select name="category" value={formData.category} onChange={handleChange}>
@@ -122,7 +122,7 @@ const AddExpenseForm = () => {
                     />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div className="form-row">
                     <div>
                         <label>Payment Status</label>
                         <select name="paymentStatus" value={formData.paymentStatus} onChange={handleChange}>

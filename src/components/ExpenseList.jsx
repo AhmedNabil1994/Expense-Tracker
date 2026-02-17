@@ -163,13 +163,14 @@ const ExpenseList = () => {
                             ))
                         )}
                     </tbody>
-                    <tfoot>
-                        <tr style={{ borderTop: '2px solid var(--border-color)', backgroundColor: 'var(--background-color)', fontWeight: 'bold' }}>
-                            <td colSpan="5" style={{ padding: '10px', textAlign: 'right' }}>Total:</td>
-                            <td style={{ padding: '10px' }}>
-                                <span style={{ fontSize: '0.8em', marginRight: '2px' }}>EGP</span> {totalFilteredAmount.toFixed(2)}
+                    <tfoot style={{ backgroundColor: '#f8fafc' }}>
+                        <tr style={{ borderTop: '2px solid var(--primary-color)' }}>
+                            <td colSpan="5" style={{ padding: '16px 10px', textAlign: 'right', fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--text-color)' }}>Total Expenses:</td>
+                            <td style={{ padding: '16px 10px', fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--primary-color)' }}>
+                                <span style={{ fontSize: '0.8em', marginRight: '4px', color: 'var(--secondary-color)' }}>EGP</span>
+                                {totalFilteredAmount.toFixed(2)}
                             </td>
-                            <td colSpan="2"></td>
+                            <td colSpan="3"></td>
                         </tr>
                     </tfoot>
                 </table>
@@ -247,8 +248,22 @@ const ExpenseList = () => {
                         </div>
                     ))
                 )}
-                <div style={{ marginTop: '1rem', padding: '1rem', backgroundColor: 'var(--background-color)', borderRadius: '8px', textAlign: 'center', fontWeight: 'bold' }}>
-                    Total: <span style={{ fontSize: '0.8em', marginRight: '2px' }}>EGP</span> {totalFilteredAmount.toFixed(2)}
+                <div style={{
+                    marginTop: '1.5rem',
+                    padding: '1.5rem',
+                    backgroundColor: 'white',
+                    borderRadius: '12px',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                    border: '1px solid var(--border-color)',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                }}>
+                    <span style={{ fontSize: '1.1rem', fontWeight: 'bold', color: 'var(--text-color)' }}>Total Expenses</span>
+                    <span style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'var(--primary-color)' }}>
+                        <span style={{ fontSize: '0.8em', marginRight: '4px', color: 'var(--secondary-color)' }}>EGP</span>
+                        {totalFilteredAmount.toFixed(2)}
+                    </span>
                 </div>
             </div>
         </div>

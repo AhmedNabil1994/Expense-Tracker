@@ -58,6 +58,7 @@ const ExpenseList = () => {
                             <th style={{ padding: '8px' }}>Category</th>
                             <th style={{ padding: '8px' }}>Description</th>
                             <th style={{ padding: '8px' }}>Amount</th>
+                            <th style={{ padding: '8px' }}>Method</th>
                             <th style={{ padding: '8px' }}>Status</th>
                             <th style={{ padding: '8px' }}>Attachment</th>
                             <th style={{ padding: '8px' }}>Actions</th>
@@ -88,11 +89,14 @@ const ExpenseList = () => {
                                     </td>
                                     <td style={{ padding: '8px' }}>{expense.unitName}</td>
                                     <td style={{ padding: '8px' }}>{expense.category}</td>
-                                    <td style={{ padding: '8px', maxWidth: '200px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={expense.description}>
+                                    <td style={{ padding: '8px', maxWidth: '30vw', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={expense.description}>
                                         {expense.description}
                                     </td>
                                     <td style={{ padding: '8px', fontWeight: 'bold', whiteSpace: 'nowrap' }}>
                                         <span style={{ fontSize: '0.8em', marginRight: '2px' }}>EGP</span> {expense.amount.toFixed(2)}
+                                    </td>
+                                    <td style={{ padding: '8px', whiteSpace: 'nowrap', textTransform: 'capitalize', fontSize: '0.85rem' }}>
+                                        {expense.paymentMethod}
                                     </td>
                                     <td style={{ padding: '8px' }}>
                                         <span style={{
@@ -191,13 +195,27 @@ const ExpenseList = () => {
                     filteredExpenses.map(expense => (
                         <div key={expense.id} className="expense-card">
                             <div className="expense-card-header">
-                                <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{expense.category}</span>
+                                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                    <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{expense.category}</span>
+                                    <span style={{
+                                        fontSize: '0.7rem',
+                                        padding: '2px 6px',
+                                        borderRadius: '4px',
+                                        backgroundColor: '#f1f5f9',
+                                        color: '#64748b',
+                                        textTransform: 'uppercase',
+                                        fontWeight: '600'
+                                    }}>
+                                        {expense.expenseType}
+                                    </span>
+                                </div>
                                 <span style={{ fontWeight: 'bold', color: 'var(--primary-color)' }}>
                                     EGP {expense.amount.toFixed(2)}
                                 </span>
                             </div>
-                            <div style={{ fontSize: '0.9rem', color: 'var(--secondary-color)' }}>
-                                {expense.date} • {expense.unitName || 'General'}
+                            <div style={{ fontSize: '0.9rem', color: 'var(--secondary-color)', display: 'flex', justifyContent: 'space-between' }}>
+                                <span>{expense.date} • {expense.unitName || 'General'}</span>
+                                <span style={{ textTransform: 'capitalize' }}>via {expense.paymentMethod}</span>
                             </div>
                             {expense.description && (
                                 <div style={{ fontSize: '0.9rem' }}>{expense.description}</div>

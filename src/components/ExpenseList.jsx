@@ -72,7 +72,7 @@ const ExpenseList = () => {
                             </tr>
                         ) : (
                             filteredExpenses.map(expense => (
-                                <tr key={expense.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
+                                <tr key={expense.id} style={{ borderBottom: '1px solid var(--border-color)', verticalAlign: 'middle' }}>
                                     <td style={{ padding: '10px' }}>{expense.date}</td>
                                     <td style={{ padding: '10px' }}>
                                         <span style={{
@@ -90,8 +90,18 @@ const ExpenseList = () => {
                                     <td style={{ padding: '10px' }}>{expense.description}</td>
                                     <td style={{ padding: '10px', fontWeight: 'bold' }}><span style={{ fontSize: '0.8em', marginRight: '2px' }}>EGP</span> {expense.amount.toFixed(2)}</td>
                                     <td style={{ padding: '10px' }}>
-                                        <span style={{ color: expense.paymentStatus === 'paid' ? 'var(--success-color)' : 'var(--danger-color)' }}>
-                                            {expense.paymentStatus}
+                                        <span style={{
+                                            display: 'inline-block',
+                                            padding: '4px 12px',
+                                            borderRadius: '20px',
+                                            fontSize: '0.85rem',
+                                            fontWeight: '600',
+                                            backgroundColor: expense.paymentStatus === 'paid' ? '#dcfce7' : '#fee2e2',
+                                            color: expense.paymentStatus === 'paid' ? '#166534' : '#991b1b',
+                                            textAlign: 'center',
+                                            minWidth: '80px'
+                                        }}>
+                                            {expense.paymentStatus.charAt(0).toUpperCase() + expense.paymentStatus.slice(1)}
                                         </span>
                                     </td>
                                     <td style={{ padding: '10px' }}>
@@ -103,31 +113,51 @@ const ExpenseList = () => {
                                             <span style={{ color: '#9ca3af' }}>-</span>
                                         )}
                                     </td>
-                                    <td style={{ padding: '10px', display: 'flex', gap: '5px' }}>
-                                        <button
-                                            onClick={() => editExpense(expense)}
-                                            style={{
-                                                backgroundColor: 'transparent',
-                                                color: 'var(--primary-color)',
-                                                padding: '4px 8px',
-                                                fontSize: '0.9rem',
-                                                cursor: 'pointer'
-                                            }}
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={() => deleteExpense(expense.id)}
-                                            style={{
-                                                backgroundColor: 'transparent',
-                                                color: 'var(--danger-color)',
-                                                padding: '4px 8px',
-                                                fontSize: '0.9rem',
-                                                cursor: 'pointer'
-                                            }}
-                                        >
-                                            Delete
-                                        </button>
+                                    <td style={{ padding: '10px' }}>
+                                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                            <button
+                                                onClick={() => editExpense(expense)}
+                                                style={{
+                                                    backgroundColor: '#eff6ff',
+                                                    color: '#1d4ed8',
+                                                    border: '1px solid #bfdbfe',
+                                                    padding: '6px 12px',
+                                                    fontSize: '0.85rem',
+                                                    borderRadius: '6px',
+                                                    cursor: 'pointer',
+                                                    fontWeight: '500',
+                                                    transition: 'all 0.2s',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center'
+                                                }}
+                                                onMouseOver={(e) => e.target.style.backgroundColor = '#dbeafe'}
+                                                onMouseOut={(e) => e.target.style.backgroundColor = '#eff6ff'}
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                onClick={() => deleteExpense(expense.id)}
+                                                style={{
+                                                    backgroundColor: '#fef2f2',
+                                                    color: '#b91c1c',
+                                                    border: '1px solid #fecaca',
+                                                    padding: '6px 12px',
+                                                    fontSize: '0.85rem',
+                                                    borderRadius: '6px',
+                                                    cursor: 'pointer',
+                                                    fontWeight: '500',
+                                                    transition: 'all 0.2s',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center'
+                                                }}
+                                                onMouseOver={(e) => e.target.style.backgroundColor = '#fee2e2'}
+                                                onMouseOut={(e) => e.target.style.backgroundColor = '#fef2f2'}
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))
@@ -175,35 +205,44 @@ const ExpenseList = () => {
                             <div className="expense-card-footer">
                                 <span style={{
                                     fontSize: '0.8rem',
-                                    padding: '2px 8px',
+                                    padding: '4px 10px',
                                     borderRadius: '12px',
                                     backgroundColor: expense.paymentStatus === 'paid' ? '#dcfce7' : '#fee2e2',
-                                    color: expense.paymentStatus === 'paid' ? 'var(--success-color)' : 'var(--danger-color)'
+                                    color: expense.paymentStatus === 'paid' ? '#166534' : '#991b1b',
+                                    fontWeight: '600'
                                 }}>
-                                    {expense.paymentStatus}
+                                    {expense.paymentStatus.charAt(0).toUpperCase() + expense.paymentStatus.slice(1)}
                                 </span>
-                                <button
-                                    onClick={() => editExpense(expense)}
-                                    style={{
-                                        backgroundColor: 'transparent',
-                                        color: 'var(--primary-color)',
-                                        padding: '4px 8px',
-                                        fontSize: '0.9rem'
-                                    }}
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    onClick={() => deleteExpense(expense.id)}
-                                    style={{
-                                        backgroundColor: 'transparent',
-                                        color: 'var(--danger-color)',
-                                        padding: '4px 8px',
-                                        fontSize: '0.9rem'
-                                    }}
-                                >
-                                    Delete
-                                </button>
+                                <div style={{ display: 'flex', gap: '8px' }}>
+                                    <button
+                                        onClick={() => editExpense(expense)}
+                                        style={{
+                                            backgroundColor: '#eff6ff',
+                                            color: '#1d4ed8',
+                                            border: '1px solid #bfdbfe',
+                                            padding: '4px 10px',
+                                            fontSize: '0.85rem',
+                                            borderRadius: '6px',
+                                            fontWeight: '500'
+                                        }}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        onClick={() => deleteExpense(expense.id)}
+                                        style={{
+                                            backgroundColor: '#fef2f2',
+                                            color: '#b91c1c',
+                                            border: '1px solid #fecaca',
+                                            padding: '4px 10px',
+                                            fontSize: '0.85rem',
+                                            borderRadius: '6px',
+                                            fontWeight: '500'
+                                        }}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))

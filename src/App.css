@@ -1,19 +1,21 @@
 /* App specific styles */
 
 /* Dashboard Layout */
+/* Dashboard Layout */
 .dashboard-grid {
     display: grid;
-    gap: 2rem;
+    gap: 1.5rem;
     grid-template-columns: 1fr;
     /* Mobile default: single column */
+    align-items: start;
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1024px) {
     .dashboard-grid {
-        grid-template-columns: 350px 1fr;
-        /* Desktop: Form (fixed width) | List (flex) */
-        align-items: start;
-        /* Prevent form from stretching to match list height */
+        grid-template-columns: 350px minmax(0, 1fr);
+        /* Desktop: Fixed Sidebar (350px) | Main Content (minmax(0, 1fr) prevents blowout) */
+        align-items: stretch;
+        /* Stretch both columns to match height */
     }
 }
 
@@ -113,11 +115,11 @@
 
 @media (min-width: 768px) {
     .desktop-only {
-        display: initial;
-        /* Restore default display (usually block or table) */
+        display: block;
+        /* Restore default display (block for divs) */
     }
 
-    /* Specific override for table elements if needed, or just let them be naturally displayed */
+    /* Specific override for table elements if needed */
     table.desktop-only {
         display: table;
     }
@@ -125,4 +127,82 @@
     .mobile-only {
         display: none;
     }
+}
+
+/* Table Layout Fixes */
+.expense-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+    /* Allow columns to size based on content, but constrained by max-widths */
+}
+
+.expense-table th {
+    padding: 12px 6px;
+    text-align: left;
+    font-size: 0.85rem;
+    border-bottom: 2px solid var(--border-color);
+    white-space: nowrap;
+}
+
+.expense-table td {
+    padding: 12px 6px;
+    vertical-align: top;
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.description-cell {
+    min-width: 180px;
+    max-width: 280px;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Specific Column Constraints to prevent squashing */
+.col-date {
+    min-width: 100px;
+    white-space: nowrap;
+}
+
+.col-type {
+    min-width: 90px;
+}
+
+.col-unit {
+    min-width: 70px;
+}
+
+.col-category {
+    min-width: 90px;
+}
+
+.col-amount {
+    min-width: 100px;
+    white-space: nowrap;
+}
+
+.col-method {
+    min-width: 80px;
+}
+
+.col-status {
+    min-width: 90px;
+}
+
+.col-attachment {
+    min-width: 80px;
+}
+
+.col-actions {
+    min-width: 140px;
+}
+
+.actions-cell {
+    display: flex;
+    gap: 6px;
+    flex-wrap: nowrap;
+    /* Keep buttons side-by-side if space allows, or let table scroll */
+    align-items: center;
 }

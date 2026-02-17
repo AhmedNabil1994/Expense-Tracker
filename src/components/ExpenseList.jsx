@@ -48,34 +48,34 @@ const ExpenseList = () => {
                 </div>
             </div>
 
-            <div className="desktop-only" style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div className="desktop-only" style={{ overflowX: 'auto', width: '100%' }}>
+                <table className="expense-table">
                     <thead>
-                        <tr style={{ borderBottom: '2px solid var(--border-color)', textAlign: 'left', fontSize: '0.9rem' }}>
-                            <th style={{ padding: '8px' }}>Date</th>
-                            <th style={{ padding: '8px' }}>Type</th>
-                            <th style={{ padding: '8px' }}>Unit</th>
-                            <th style={{ padding: '8px' }}>Category</th>
-                            <th style={{ padding: '8px' }}>Description</th>
-                            <th style={{ padding: '8px' }}>Amount</th>
-                            <th style={{ padding: '8px' }}>Method</th>
-                            <th style={{ padding: '8px' }}>Status</th>
-                            <th style={{ padding: '8px' }}>Attachment</th>
-                            <th style={{ padding: '8px' }}>Actions</th>
+                        <tr>
+                            <th className="col-date">Date</th>
+                            <th className="col-type">Type</th>
+                            <th className="col-unit">Unit</th>
+                            <th className="col-category">Category</th>
+                            <th>Description</th>
+                            <th className="col-amount">Amount</th>
+                            <th className="col-method">Method</th>
+                            <th className="col-status">Status</th>
+                            <th className="col-attachment">Attachment</th>
+                            <th className="col-actions">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {filteredExpenses.length === 0 ? (
                             <tr>
-                                <td colSpan="8" style={{ padding: '20px', textAlign: 'center', color: 'var(--secondary-color)' }}>
+                                <td colSpan="10" style={{ padding: '20px', textAlign: 'center', color: 'var(--secondary-color)' }}>
                                     No expenses found.
                                 </td>
                             </tr>
                         ) : (
                             filteredExpenses.map(expense => (
-                                <tr key={expense.id} style={{ borderBottom: '1px solid var(--border-color)', verticalAlign: 'middle', fontSize: '0.9rem' }}>
-                                    <td style={{ padding: '8px', whiteSpace: 'nowrap' }}>{expense.date}</td>
-                                    <td style={{ padding: '8px' }}>
+                                <tr key={expense.id}>
+                                    <td className="col-date">{expense.date}</td>
+                                    <td className="col-type">
                                         <span style={{
                                             padding: '2px 8px',
                                             borderRadius: '12px',
@@ -87,18 +87,20 @@ const ExpenseList = () => {
                                             {expense.expenseType}
                                         </span>
                                     </td>
-                                    <td style={{ padding: '8px' }}>{expense.unitName}</td>
-                                    <td style={{ padding: '8px' }}>{expense.category}</td>
-                                    <td style={{ padding: '8px', maxWidth: '30vw', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={expense.description}>
-                                        {expense.description}
+                                    <td className="col-unit">{expense.unitName}</td>
+                                    <td className="col-category">{expense.category}</td>
+                                    <td>
+                                        <div className="description-cell">
+                                            {expense.description}
+                                        </div>
                                     </td>
-                                    <td style={{ padding: '8px', fontWeight: 'bold', whiteSpace: 'nowrap' }}>
+                                    <td className="col-amount" style={{ fontWeight: 'bold' }}>
                                         <span style={{ fontSize: '0.8em', marginRight: '2px' }}>EGP</span> {expense.amount.toFixed(2)}
                                     </td>
-                                    <td style={{ padding: '8px', whiteSpace: 'nowrap', textTransform: 'capitalize', fontSize: '0.85rem' }}>
+                                    <td className="col-method" style={{ textTransform: 'capitalize' }}>
                                         {expense.paymentMethod}
                                     </td>
-                                    <td style={{ padding: '8px' }}>
+                                    <td className="col-status">
                                         <span style={{
                                             display: 'inline-block',
                                             padding: '2px 10px',
@@ -114,17 +116,17 @@ const ExpenseList = () => {
                                             {expense.paymentStatus.charAt(0).toUpperCase() + expense.paymentStatus.slice(1)}
                                         </span>
                                     </td>
-                                    <td style={{ padding: '8px' }}>
+                                    <td className="col-attachment">
                                         {expense.attachment ? (
-                                            <a href={expense.attachment} download={expense.attachmentName || 'attachment'} style={{ color: 'var(--primary-color)', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.85rem' }}>
+                                            <a href={expense.attachment} download={expense.attachmentName || 'attachment'} style={{ color: 'var(--primary-color)', textDecoration: 'underline', cursor: 'pointer' }}>
                                                 View
                                             </a>
                                         ) : (
-                                            <span style={{ color: '#9ca3af', fontSize: '0.85rem' }}>-</span>
+                                            <span style={{ color: '#9ca3af' }}>-</span>
                                         )}
                                     </td>
-                                    <td style={{ padding: '8px' }}>
-                                        <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                                    <td className="col-actions">
+                                        <div className="actions-cell">
                                             <button
                                                 onClick={() => editExpense(expense)}
                                                 style={{
@@ -218,7 +220,7 @@ const ExpenseList = () => {
                                 <span style={{ textTransform: 'capitalize' }}>via {expense.paymentMethod}</span>
                             </div>
                             {expense.description && (
-                                <div style={{ fontSize: '0.9rem' }}>{expense.description}</div>
+                                <div style={{ fontSize: '0.9rem', wordBreak: 'break-word' }}>{expense.description}</div>
                             )}
                             {expense.attachment && (
                                 <div style={{ marginTop: '5px' }}>

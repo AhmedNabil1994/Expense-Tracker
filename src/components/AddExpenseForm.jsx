@@ -91,7 +91,7 @@ const AddExpenseForm = () => {
     return (
         <div className="card">
             <h2>{editingExpense ? 'Edit Expense' : 'Add New Expense'}</h2>
-            <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '10px' }}>
+            <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '10px', height: '100%', alignContent: 'start' }}>
                 <div className="form-row">
                     <div>
                         <label>Date</label>

@@ -8,7 +8,7 @@
     /* Mobile default: single column */
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
     .dashboard-grid {
         grid-template-columns: 350px 1fr;
         /* Desktop: Form (fixed width) | List (flex) */

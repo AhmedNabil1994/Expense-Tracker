@@ -49,18 +49,18 @@ const ExpenseList = () => {
             </div>
 
             <div className="desktop-only" style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '600px' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead>
-                        <tr style={{ borderBottom: '2px solid var(--border-color)', textAlign: 'left' }}>
-                            <th style={{ padding: '10px' }}>Date</th>
-                            <th style={{ padding: '10px' }}>Type</th>
-                            <th style={{ padding: '10px' }}>Unit</th>
-                            <th style={{ padding: '10px' }}>Category</th>
-                            <th style={{ padding: '10px' }}>Description</th>
-                            <th style={{ padding: '10px' }}>Amount</th>
-                            <th style={{ padding: '10px' }}>Status</th>
-                            <th style={{ padding: '10px' }}>Attachment</th>
-                            <th style={{ padding: '10px' }}>Actions</th>
+                        <tr style={{ borderBottom: '2px solid var(--border-color)', textAlign: 'left', fontSize: '0.9rem' }}>
+                            <th style={{ padding: '8px' }}>Date</th>
+                            <th style={{ padding: '8px' }}>Type</th>
+                            <th style={{ padding: '8px' }}>Unit</th>
+                            <th style={{ padding: '8px' }}>Category</th>
+                            <th style={{ padding: '8px' }}>Description</th>
+                            <th style={{ padding: '8px' }}>Amount</th>
+                            <th style={{ padding: '8px' }}>Status</th>
+                            <th style={{ padding: '8px' }}>Attachment</th>
+                            <th style={{ padding: '8px' }}>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,57 +72,63 @@ const ExpenseList = () => {
                             </tr>
                         ) : (
                             filteredExpenses.map(expense => (
-                                <tr key={expense.id} style={{ borderBottom: '1px solid var(--border-color)', verticalAlign: 'middle' }}>
-                                    <td style={{ padding: '10px' }}>{expense.date}</td>
-                                    <td style={{ padding: '10px' }}>
+                                <tr key={expense.id} style={{ borderBottom: '1px solid var(--border-color)', verticalAlign: 'middle', fontSize: '0.9rem' }}>
+                                    <td style={{ padding: '8px', whiteSpace: 'nowrap' }}>{expense.date}</td>
+                                    <td style={{ padding: '8px' }}>
                                         <span style={{
                                             padding: '2px 8px',
                                             borderRadius: '12px',
-                                            fontSize: '0.8rem',
+                                            fontSize: '0.75rem',
                                             backgroundColor: expense.expenseType === 'unit' ? '#e0f2fe' : '#fef3c7',
-                                            color: expense.expenseType === 'unit' ? '#0369a1' : '#b45309'
+                                            color: expense.expenseType === 'unit' ? '#0369a1' : '#b45309',
+                                            whiteSpace: 'nowrap'
                                         }}>
                                             {expense.expenseType}
                                         </span>
                                     </td>
-                                    <td style={{ padding: '10px' }}>{expense.unitName}</td>
-                                    <td style={{ padding: '10px' }}>{expense.category}</td>
-                                    <td style={{ padding: '10px' }}>{expense.description}</td>
-                                    <td style={{ padding: '10px', fontWeight: 'bold' }}><span style={{ fontSize: '0.8em', marginRight: '2px' }}>EGP</span> {expense.amount.toFixed(2)}</td>
-                                    <td style={{ padding: '10px' }}>
+                                    <td style={{ padding: '8px' }}>{expense.unitName}</td>
+                                    <td style={{ padding: '8px' }}>{expense.category}</td>
+                                    <td style={{ padding: '8px', maxWidth: '200px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={expense.description}>
+                                        {expense.description}
+                                    </td>
+                                    <td style={{ padding: '8px', fontWeight: 'bold', whiteSpace: 'nowrap' }}>
+                                        <span style={{ fontSize: '0.8em', marginRight: '2px' }}>EGP</span> {expense.amount.toFixed(2)}
+                                    </td>
+                                    <td style={{ padding: '8px' }}>
                                         <span style={{
                                             display: 'inline-block',
-                                            padding: '4px 12px',
+                                            padding: '2px 10px',
                                             borderRadius: '20px',
-                                            fontSize: '0.85rem',
+                                            fontSize: '0.75rem',
                                             fontWeight: '600',
                                             backgroundColor: expense.paymentStatus === 'paid' ? '#dcfce7' : '#fee2e2',
                                             color: expense.paymentStatus === 'paid' ? '#166534' : '#991b1b',
                                             textAlign: 'center',
-                                            minWidth: '80px'
+                                            minWidth: '60px',
+                                            whiteSpace: 'nowrap'
                                         }}>
                                             {expense.paymentStatus.charAt(0).toUpperCase() + expense.paymentStatus.slice(1)}
                                         </span>
                                     </td>
-                                    <td style={{ padding: '10px' }}>
+                                    <td style={{ padding: '8px' }}>
                                         {expense.attachment ? (
-                                            <a href={expense.attachment} download={expense.attachmentName || 'attachment'} style={{ color: 'var(--primary-color)', textDecoration: 'underline', cursor: 'pointer' }}>
+                                            <a href={expense.attachment} download={expense.attachmentName || 'attachment'} style={{ color: 'var(--primary-color)', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.85rem' }}>
                                                 View
                                             </a>
                                         ) : (
-                                            <span style={{ color: '#9ca3af' }}>-</span>
+                                            <span style={{ color: '#9ca3af', fontSize: '0.85rem' }}>-</span>
                                         )}
                                     </td>
-                                    <td style={{ padding: '10px' }}>
-                                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                    <td style={{ padding: '8px' }}>
+                                        <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
                                             <button
                                                 onClick={() => editExpense(expense)}
                                                 style={{
                                                     backgroundColor: '#eff6ff',
                                                     color: '#1d4ed8',
                                                     border: '1px solid #bfdbfe',
-                                                    padding: '6px 12px',
-                                                    fontSize: '0.85rem',
+                                                    padding: '4px 8px',
+                                                    fontSize: '0.8rem',
                                                     borderRadius: '6px',
                                                     cursor: 'pointer',
                                                     fontWeight: '500',
@@ -142,8 +148,8 @@ const ExpenseList = () => {
                                                     backgroundColor: '#fef2f2',
                                                     color: '#b91c1c',
                                                     border: '1px solid #fecaca',
-                                                    padding: '6px 12px',
-                                                    fontSize: '0.85rem',
+                                                    padding: '4px 8px',
+                                                    fontSize: '0.8rem',
                                                     borderRadius: '6px',
                                                     cursor: 'pointer',
                                                     fontWeight: '500',

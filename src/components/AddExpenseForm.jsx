@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useExpenses } from '../context/ExpenseContext';
 
 const AddExpenseForm = () => {
-    const { addExpense } = useExpenses();
+    const { addExpense, editingExpense, updateExpense, clearEditing } = useExpenses();
     const [formData, setFormData] = useState({
         date: new Date().toISOString().split('T')[0],
         expenseType: 'unit',
@@ -11,7 +11,9 @@ const AddExpenseForm = () => {
         description: '',
         amount: '',
         paymentStatus: 'paid',
-        paymentMethod: 'cash'
+        paymentMethod: 'cash',
+        attachment: '',
+        attachmentName: ''
     });
 
     const handleChange = (e) => {
@@ -22,6 +24,21 @@ const AddExpenseForm = () => {
         }));
     };
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setFormData(prev => ({
+                    ...prev,
+                    attachment: reader.result,
+                    attachmentName: file.name
+                }));
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const newExpense = {
@@ -29,9 +46,16 @@ const AddExpenseForm = () => {
             amount: parseFloat(formData.amount),
             // If type is salary, unit name is meaningless, so we can set it to 'General' or blank,
             // but requirement says "Unit name (only for unit expenses, otherwise "General")"
-            unitName: formData.expenseType === 'salary' ? 'General' : formData.unitName
+            // but requirement says "Unit name (only for unit expenses, otherwise "General")"
+            unitName: formData.expenseType === 'salary' ? 'General' : formData.unitName,
+            id: editingExpense ? editingExpense.id : undefined // Explicitly preserve ID
         };
-        addExpense(newExpense);
+
+        if (editingExpense) {
+            updateExpense(newExpense);
+        } else {
+            addExpense(newExpense);
+        }
 
         // Reset form
         setFormData({
@@ -42,13 +66,31 @@ const AddExpenseForm = () => {
             description: '',
             amount: '',
             paymentStatus: 'paid',
-            paymentMethod: 'cash'
+            paymentMethod: 'cash',
+            attachment: '',
+            attachmentName: ''
+        });
+    };
+
+    const handleCancel = () => {
+        clearEditing();
+        setFormData({
+            date: new Date().toISOString().split('T')[0],
+            expenseType: 'unit',
+            unitName: '',
+            category: 'electricity',
+            description: '',
+            amount: '',
+            paymentStatus: 'paid',
+            paymentMethod: 'cash',
+            attachment: '',
+            attachmentName: ''
         });
     };
 
     return (
         <div className="card">
-            <h2>Add New Expense</h2>
+            <h2>{editingExpense ? 'Edit Expense' : 'Add New Expense'}</h2>
             <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '10px' }}>
                 <div className="form-row">
                     <div>
@@ -140,9 +182,26 @@ const AddExpenseForm = () => {
                     </div>
                 </div>
 
-                <button type="submit" style={{ backgroundColor: 'var(--primary-color)', color: 'white', marginTop: '10px' }}>
-                    Add Expense
-                </button>
+                <div>
+                    <label>Attachment (Optional)</label>
+                    <input
+                        type="file"
+                        onChange={handleFileChange}
+                        accept="image/*,.pdf"
+                    />
+                    {formData.attachmentName && <span style={{ fontSize: '0.8rem', marginLeft: '10px' }}>Selected: {formData.attachmentName}</span>}
+                </div>
+
+                <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                    <button type="submit" style={{ backgroundColor: 'var(--primary-color)', color: 'white', flex: 1 }}>
+                        {editingExpense ? 'Update Expense' : 'Add Expense'}
+                    </button>
+                    {editingExpense && (
+                        <button type="button" onClick={handleCancel} style={{ backgroundColor: '#6b7280', color: 'white', flex: 1 }}>
+                            Cancel
+                        </button>
+                    )}
+                </div>
             </form>
         </div>
     );

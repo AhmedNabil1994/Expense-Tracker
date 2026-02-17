@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useExpenses } from '../context/ExpenseContext';
 
 const ExpenseList = () => {
-    const { expenses, deleteExpense } = useExpenses();
+    const { expenses, deleteExpense, editExpense } = useExpenses();
     const [filterUnit, setFilterUnit] = useState('all');
     const [filterMonth, setFilterMonth] = useState(new Date().toISOString().slice(0, 7));
 
@@ -59,6 +59,7 @@ const ExpenseList = () => {
                             <th style={{ padding: '10px' }}>Description</th>
                             <th style={{ padding: '10px' }}>Amount</th>
                             <th style={{ padding: '10px' }}>Status</th>
+                            <th style={{ padding: '10px' }}>Attachment</th>
                             <th style={{ padding: '10px' }}>Actions</th>
                         </tr>
                     </thead>
@@ -94,13 +95,35 @@ const ExpenseList = () => {
                                         </span>
                                     </td>
                                     <td style={{ padding: '10px' }}>
+                                        {expense.attachment ? (
+                                            <a href={expense.attachment} download={expense.attachmentName || 'attachment'} style={{ color: 'var(--primary-color)', textDecoration: 'underline', cursor: 'pointer' }}>
+                                                View
+                                            </a>
+                                        ) : (
+                                            <span style={{ color: '#9ca3af' }}>-</span>
+                                        )}
+                                    </td>
+                                    <td style={{ padding: '10px', display: 'flex', gap: '5px' }}>
+                                        <button
+                                            onClick={() => editExpense(expense)}
+                                            style={{
+                                                backgroundColor: 'transparent',
+                                                color: 'var(--primary-color)',
+                                                padding: '4px 8px',
+                                                fontSize: '0.9rem',
+                                                cursor: 'pointer'
+                                            }}
+                                        >
+                                            Edit
+                                        </button>
                                         <button
                                             onClick={() => deleteExpense(expense.id)}
                                             style={{
                                                 backgroundColor: 'transparent',
                                                 color: 'var(--danger-color)',
                                                 padding: '4px 8px',
-                                                fontSize: '0.9rem'
+                                                fontSize: '0.9rem',
+                                                cursor: 'pointer'
                                             }}
                                         >
                                             Delete
@@ -142,6 +165,13 @@ const ExpenseList = () => {
                             {expense.description && (
                                 <div style={{ fontSize: '0.9rem' }}>{expense.description}</div>
                             )}
+                            {expense.attachment && (
+                                <div style={{ marginTop: '5px' }}>
+                                    <a href={expense.attachment} download={expense.attachmentName || 'attachment'} style={{ fontSize: '0.9rem', color: 'var(--primary-color)', textDecoration: 'underline' }}>
+                                        View Attachment
+                                    </a>
+                                </div>
+                            )}
                             <div className="expense-card-footer">
                                 <span style={{
                                     fontSize: '0.8rem',
@@ -152,6 +182,17 @@ const ExpenseList = () => {
                                 }}>
                                     {expense.paymentStatus}
                                 </span>
+                                <button
+                                    onClick={() => editExpense(expense)}
+                                    style={{
+                                        backgroundColor: 'transparent',
+                                        color: 'var(--primary-color)',
+                                        padding: '4px 8px',
+                                        fontSize: '0.9rem'
+                                    }}
+                                >
+                                    Edit
+                                </button>
                                 <button
                                     onClick={() => deleteExpense(expense.id)}
                                     style={{

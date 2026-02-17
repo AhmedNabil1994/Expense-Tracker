@@ -10,6 +10,8 @@ export const ExpenseProvider = ({ children }) => {
     return savedExpenses ? JSON.parse(savedExpenses) : [];
   });
 
+  const [editingExpense, setEditingExpense] = useState(null);
+
   useEffect(() => {
     localStorage.setItem('expenses', JSON.stringify(expenses));
   }, [expenses]);
@@ -22,8 +24,23 @@ export const ExpenseProvider = ({ children }) => {
     setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense.id !== id));
   };
 
+  const editExpense = (expense) => {
+    setEditingExpense(expense);
+  };
+
+  const updateExpense = (updatedExpense) => {
+    setExpenses((prevExpenses) =>
+      prevExpenses.map((expense) => (expense.id == updatedExpense.id ? updatedExpense : expense))
+    );
+    setEditingExpense(null);
+  };
+
+  const clearEditing = () => {
+    setEditingExpense(null);
+  };
+
   return (
-    <ExpenseContext.Provider value={{ expenses, addExpense, deleteExpense }}>
+    <ExpenseContext.Provider value={{ expenses, addExpense, deleteExpense, editingExpense, editExpense, updateExpense, clearEditing }}>
       {children}
     </ExpenseContext.Provider>
   );
